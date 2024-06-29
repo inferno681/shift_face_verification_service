@@ -11,4 +11,4 @@ class FaceVerification:
         result = DeepFace.represent(img_path=self.link, model_name=MODEL)
         if len(result) > 1:
             raise ValueError(MORE_FACES)
-        return result[0]['embedding']
+        return {self.link: result[0]['embedding']}
