@@ -40,6 +40,8 @@ test:
   stage: test
   script:
     - poetry run pytest --cov
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
 
 pre_commit:
   stage: pre_commit
