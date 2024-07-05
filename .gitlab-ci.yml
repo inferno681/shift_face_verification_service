@@ -21,6 +21,14 @@ lint:
   script:
     - poetry run flake8 src/
 
+mypy:
+  stage: lint
+  rules:
+    - changes:
+      - src/**
+  script:
+    - poetry run mypy src/
+
 test:
   stage: test
   script:
