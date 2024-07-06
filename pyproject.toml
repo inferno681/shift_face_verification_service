@@ -7,6 +7,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+deepface = "^0.0.92"
+tf-keras = "^2.16.0"
+opencv-python-headless = "^4.10.0.84"
 
 
 
