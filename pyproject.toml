@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "src"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Vasilii Stakrotckii <inferno681@gmail.com>"]
 readme = "README.md"
@@ -10,7 +10,6 @@ python = "^3.12"
 deepface = "^0.0.92"
 tf-keras = "^2.16.0"
 opencv-python-headless = "^4.10.0.84"
-
 
 
 [tool.poetry.group.dev.dependencies]
@@ -24,15 +23,3 @@ wemake-python-styleguide = "^0.19.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-line-length = 79
-target-version = ["py312"]
-exclude = '''
-/(
-    \.devcontainer
-  | \.git
-  | \.venv
-  | \.vscode
-)/
-'''
