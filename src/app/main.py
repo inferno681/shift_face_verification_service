@@ -19,9 +19,20 @@ async def lifespan(app: FastAPI):
     model_obj = {}  # type: ignore
 
 
-app = FastAPI(debug=config.service.debug)  # type: ignore
+tags_metadata = [config.service.tags_metadata]  # type: ignore
 
-app.include_router(router)
+app = FastAPI(
+    title=config.service.title,  # type: ignore
+    description=config.service.description,  # type: ignore
+    tags_metadata=tags_metadata,
+    debug=config.service.debug,  # type: ignore
+)
+
+app.include_router(
+    router,
+    prefix='/api',
+    tags=[config.service.tags_metadata['name']],  # type: ignore
+)
 
 
 @app.exception_handler(ManyFacesError)
