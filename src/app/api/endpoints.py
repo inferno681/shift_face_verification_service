@@ -7,6 +7,6 @@ router = APIRouter()
 
 
 @router.post('/face_embedding', response_model=FaceVerificationResponse)
-async def registration(link: FaceVerificationRequest):
+async def registration(data: FaceVerificationRequest):
     """Эндпоинт регистрации пользователя."""
-    return FaceVerification(link.link).represent()
+    return FaceVerification(**data.model_dump()).represent()
