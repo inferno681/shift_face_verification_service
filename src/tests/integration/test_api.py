@@ -9,6 +9,7 @@ async def test_vector_generation(client, face_embedding_link, one_face_data):
     response = await client.post(face_embedding_link, json=one_face_data)
     assert response.status_code == 200
     response_data = response.json()
+    assert 'user_id' in response_data
     assert 'link' in response_data
     assert 'embedding' in response_data
     assert len(response_data['embedding']) == 128
