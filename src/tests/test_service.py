@@ -2,7 +2,7 @@ import pytest
 from deepface.DeepFace import represent
 
 from app.constants import MANY_FACES_MESSAGE, MODEL
-from app.main import FaceVerification
+from app.service import FaceVerification
 
 
 def test_vector_generation(one_face_link):

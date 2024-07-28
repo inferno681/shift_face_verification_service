@@ -1,6 +1,6 @@
 services:
   app:
-    container_name: 'face-verification-service'
+    container_name: 'face_verification_service_stakrotckii'
     build:
       context: app/
       dockerfile: Dockerfile
