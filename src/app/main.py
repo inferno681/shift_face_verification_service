@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from deepface import DeepFace
+from deepface.basemodels.Facenet import load_facenet128d_model
 from fastapi import FastAPI, HTTPException, Request, status
 
 from app.api import router
@@ -14,6 +15,7 @@ from config import config
 async def lifespan(app: FastAPI):
     """Загрузка модели перед запуском API."""
     DeepFace.build_model(MODEL)  # type: ignore
+    load_facenet128d_model()
     yield
     global model_obj  # noqa: WPS420
     model_obj = {}  # type: ignore
