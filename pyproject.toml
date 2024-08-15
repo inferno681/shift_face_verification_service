@@ -12,6 +12,7 @@ tf-keras = "^2.16.0"
 opencv-python-headless = "^4.10.0.84"
 pydantic-settings = "^2.3.4"
 fastapi = "^0.111.1"
+aiokafka = "^0.11.0"
 
 
 [tool.poetry.group.dev.dependencies]

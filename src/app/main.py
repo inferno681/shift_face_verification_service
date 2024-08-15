@@ -1,20 +1,35 @@
 from contextlib import asynccontextmanager
-
+import os
+import logging
 import uvicorn
 from deepface import DeepFace
 from fastapi import FastAPI, HTTPException, Request, status
 
 from app.api import router
 from app.constants import MODEL
-from app.service import ManyFacesError
+from app.service import ManyFacesError, consumer
 from config import config
+
+log = logging.getLogger('uvicorn')
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Загрузка модели перед запуском API."""
+    """
+    Действия перед запуском API.
+
+    Загрузка модели, запуск и остановка консьюмера,
+    создание директории перед запуском API.
+    """
+    if not os.path.exists(config.service.photo_directory):  # type: ignore
+        os.makedirs(config.service.photo_directory)  # type: ignore
+    await consumer.start()
+    log.info('kafka consumer started')
     DeepFace.build_model(MODEL)  # type: ignore
+    await consumer.consume()
     yield
+    await consumer.stop()
+    log.info('kafka consumer stopped')
     global model_obj  # noqa: WPS420
     model_obj = {}  # type: ignore
 
@@ -26,6 +41,7 @@ app = FastAPI(
     description=config.service.description,  # type: ignore
     tags_metadata=tags_metadata,
     debug=config.service.debug,  # type: ignore
+    lifespan=lifespan,
 )
 
 app.include_router(
