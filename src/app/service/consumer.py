@@ -35,9 +35,10 @@ class KafkaConsumer:
         if self.consumer:
             await self.consumer.stop()
 
-    async def consume(self):
+    async def consume(self, for_test=True):
         """Чтение сообщений из кафка."""
-        while True:
+        cycle = True
+        while cycle:
             async for msg in self.consumer:
                 user_id = list(msg.value.keys())[0]
                 link = msg.value[user_id]
@@ -46,6 +47,7 @@ class KafkaConsumer:
                     link=link,
                 ).represent()
                 log.info(result['embedding'])
+                cycle = for_test
 
     async def check(self):
         """Метод для проверки доступности кафка."""
