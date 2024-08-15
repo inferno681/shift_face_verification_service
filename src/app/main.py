@@ -1,6 +1,7 @@
-from contextlib import asynccontextmanager
-import os
 import logging
+import os
+from contextlib import asynccontextmanager
+
 import uvicorn
 from deepface import DeepFace
 from fastapi import FastAPI, HTTPException, Request, status

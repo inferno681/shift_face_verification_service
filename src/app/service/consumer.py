@@ -1,8 +1,12 @@
 import json
+import logging
 
 from aiokafka import AIOKafkaConsumer  # type: ignore
 
+from app.service import FaceVerification
 from config import config
+
+log = logging.getLogger('uvicorn')
 
 
 class KafkaConsumer:
@@ -34,10 +38,14 @@ class KafkaConsumer:
     async def consume(self):
         """Чтение сообщений из кафка."""
         while True:
-            data = await self.consumer.getmany()
-            for tp, messages in data.items():
-                for message in messages:
-                    print(type(message.value), message.value)
+            async for msg in self.consumer:
+                user_id = list(msg.value.keys())[0]
+                link = msg.value[user_id]
+                result = FaceVerification(
+                    user_id=user_id,
+                    link=link,
+                ).represent()
+                log.info(result['embedding'])
 
     async def check(self):
         """Метод для проверки доступности кафка."""
