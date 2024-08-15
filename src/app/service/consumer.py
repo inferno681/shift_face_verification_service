@@ -49,15 +49,6 @@ class KafkaConsumer:
                 log.info(result['embedding'])
                 cycle = for_test
 
-    async def check(self):
-        """Метод для проверки доступности кафка."""
-        try:
-            await self.start()
-            await self.stop()
-        except Exception:
-            return False
-        return True
-
 
 consumer = KafkaConsumer(
     bootstrap_servers=config.service.kafka_url(),  # type: ignore
