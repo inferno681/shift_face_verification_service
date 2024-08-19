@@ -38,11 +38,7 @@ class KafkaConsumer:
         if self.consumer:
             await self.consumer.stop()
 
-    async def consume(
-        self,
-        for_test: bool = True,
-        session: AsyncSession = Depends(get_async_session),
-    ):
+    async def consume(self, for_test: bool = True):
         """Чтение сообщений из кафка."""
         cycle = True
         while cycle:
@@ -54,14 +50,15 @@ class KafkaConsumer:
                     link=link,
                 ).represent()
                 log.info(result['embedding'])
-                session.add(
-                    Embedding(
-                        user_id=user_id,
-                        link=link,
-                        embedding=result['embedding'],
-                    ),
-                )
-                await session.commit()
+                async for session in get_async_session():
+                    session.add(
+                        Embedding(
+                            user_id=user_id,
+                            link=link,
+                            embedding=result['embedding'],
+                        ),
+                    )
+                    await session.commit()
                 cycle = for_test
 
 
