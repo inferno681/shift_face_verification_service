@@ -7,7 +7,7 @@ service:
     kafka_host: "kafka"
     kafka_port: 9092
     photo_directory: "./photos"
-    db_hostname: "localhost"
+    db_hostname: "db"
     db_port: 5432
     db_name: postgres
     db_username: postgres
