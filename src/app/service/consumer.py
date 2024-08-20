@@ -2,8 +2,6 @@ import json
 import logging
 
 from aiokafka import AIOKafkaConsumer  # type: ignore
-from fastapi import Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import Embedding, get_async_session
 from app.service import FaceVerification
