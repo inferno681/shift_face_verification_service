@@ -16,8 +16,8 @@ aiokafka = "^0.11.0"
 alembic = "^1.13.2"
 sqlalchemy = "^2.0.32"
 asyncpg = "^0.29.0"
-psycopg2 = "^2.9.9"
 pgvector = "^0.3.2"
+psycopg2-binary = "^2.9.9"
 
 
 [tool.poetry.group.dev.dependencies]

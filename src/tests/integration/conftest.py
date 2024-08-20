@@ -4,14 +4,14 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy_utils import create_database, drop_database
+from config.config import config
 
-from config import config
 
-
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope='function', autouse=True)
 async def clear_database():
     """Фикстура подготовки базы данных для тестов."""
-    config.service.db_name = 'test_db'
+
+    print(config.sync_database_url)
     create_database(config.sync_database_url)
     engine = create_async_engine(url=config.database_url)
     async with engine.begin() as conn:
@@ -57,8 +57,8 @@ def anyio_backend():
     return 'asyncio'
 
 
-@pytest.fixture
-async def client(monkeypatch):
+@pytest.fixture(scope='session')
+async def client():
     """Фикстура клиента."""
     from app.main import app
 
