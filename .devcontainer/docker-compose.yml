@@ -17,13 +17,15 @@ services:
       - PYTHONPATH=/workspace/src
 
   zookeeper:
-        image: bitnami/zookeeper:latest
-        ports:
-            - 2181:2181
-        environment:
-            - ALLOW_ANONYMOUS_LOGIN=yes
+    container_name: zookeeper
+    image: bitnami/zookeeper:latest
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
+    container_name: kafka
     image: bitnami/kafka:latest
     ports:
       - 9092:9092
@@ -41,6 +43,12 @@ services:
        - KAFKA_CREATE_TOPICS= "faces:3:1"
     depends_on:
        - zookeeper
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions.sh", "--bootstrap-server", "kafka:9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   db:
     container_name: db
     image: inferno681/pgvector

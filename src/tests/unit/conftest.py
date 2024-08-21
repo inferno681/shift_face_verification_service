@@ -1,12 +1,6 @@
 import pytest
 
 
-@pytest.fixture(scope='session')
-def anyio_backend():
-    """Бэкэнд для тестирования."""
-    return 'asyncio'
-
-
 @pytest.fixture()
 def one_face_data():
     """Фикстура с корректным изображением."""

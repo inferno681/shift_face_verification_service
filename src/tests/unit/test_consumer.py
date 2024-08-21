@@ -3,12 +3,12 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from app.service import consumer
-
 
 @pytest.mark.anyio
 async def test_consumer(consumer_test_data, caplog):
     """Тест консьюмера."""
+    from app.service import consumer
+
     caplog.set_level(logging.INFO)
     mock_msg = MagicMock()
     mock_msg.value = consumer_test_data
