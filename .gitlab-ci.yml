@@ -1,3 +1,19 @@
+.python_base:
+  image: python:3.12-slim
+  before_script:
+    - pip install poetry
+    - poetry config virtualenvs.create false
+    - poetry install
+  retry: 2
+
+.docker_base:
+  image: docker:dind
+  before_script:
+    - docker compose -f docker-compose-test.yaml up -d --build
+  after_script:
+    - docker compose -f docker-compose-test.yaml down
+  retry: 2
+
 variables:
   DOCKER_DRIVER: overlay2
 
@@ -9,24 +25,20 @@ stages:
   - build
 
 lint:
-  image: python:3.12-slim
   stage: lint
+  extends: .python_base
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "merge_request_event"
       changes:
         paths:
           - "src/**/*"
         compare_to: "main"
-  before_script:
-    - pip install poetry
-    - poetry config virtualenvs.create false
-    - poetry install
   script:
     - poetry run flake8 src/
 
 mypy:
-  image: python:3.12-slim
   stage: lint
+  extends: .python_base
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "merge_request_event"
       changes:
@@ -34,32 +46,26 @@ mypy:
           - "src/**/*"
         compare_to: "main"
   script:
-    - pip install poetry
-    - poetry config virtualenvs.create false
-    - poetry install
     - poetry run mypy src/
 
 test:
-  image: docker:dind
   stage: test
+  extends: .docker_base
   script:
-    - docker compose -f docker-compose-test.yaml up -d --build
-    - docker compose -f docker-compose-test.yaml exec face_verification_service pytest --cov --cov-fail-under=90
-  after_script:
-    - docker compose -f docker-compose-test.yaml down
+    - docker compose -f docker-compose-test.yaml exec face_verification_service pytest --cov --cov-fail-under=90 --cov-report term-missing
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "merge_request_event"
 
 pre_commit:
-  image: docker:dind
   stage: pre_commit
+  extends: .docker_base
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
-    - docker compose -f docker-compose-test.yaml up -d --build
     - docker compose -f docker-compose-test.yaml exec face_verification_service flake8 src/
     - docker compose -f docker-compose-test.yaml exec face_verification_service mypy src/
-    - docker compose -f docker-compose-test.yaml exec face_verification_service pytest --cov --cov-fail-under=90
+    - docker compose -f docker-compose-test.yaml exec face_verification_service pytest --cov --cov-fail-under=90 --cov-report term-missing --cov-report xml:coverage.xml
+    - docker cp $(docker compose -f docker-compose-test.yaml ps -q face_verification_service):/app/coverage.xml ./coverage.xml
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     reports:
@@ -69,10 +75,10 @@ pre_commit:
 
 coverage:
   stage: coverage
-  image: docker:dind
+  extends: .docker_base
   script:
-    - docker compose -f docker-compose-test.yaml up -d --build
-    - docker compose -f docker-compose-test.yaml exec face_verification_service pytest --cov --cov-fail-under=90
+    - docker compose -f docker-compose-test.yaml exec face_verification_service pytest --cov --cov-fail-under=90 --cov-report term-missing --cov-report xml:coverage.xml
+    - docker cp $(docker compose -f docker-compose-test.yaml ps -q face_verification_service):/app/coverage.xml ./coverage.xml
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     reports:

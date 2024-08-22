@@ -15,10 +15,14 @@ RUN poetry config virtualenvs.create false
 
 RUN poetry install
 
-COPY ./src  ./src
+COPY ./stubs  ./stubs
 
 COPY ./alembic.ini  ./alembic.ini
 
+COPY ./setup.cfg  ./setup.cfg
+
+COPY ./src  ./src
+
 ENV PYTHONPATH=/app/src/
 
-CMD ["python", "src/app/main.py"]
+CMD ["sh", "-c", "while true; do sleep 1; done"]
