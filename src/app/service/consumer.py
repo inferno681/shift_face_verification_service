@@ -51,7 +51,7 @@ class KafkaConsumer:
                 async for session in get_async_session():
                     session.add(
                         Embedding(
-                            user_id=user_id,
+                            user_id=int(user_id),
                             link=link,
                             embedding=result['embedding'],
                         ),
