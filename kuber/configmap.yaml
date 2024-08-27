@@ -12,6 +12,7 @@ data:
     debug: True
     kafka_host: "infra-kafka-controller-headless"
     kafka_port: 9092
+    kafka_topic: "stakrotckii_face_topic"
     photo_directory: "./photos"
     db_hostname: "postgres-service"
     db_port: 5432

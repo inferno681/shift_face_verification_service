@@ -41,6 +41,7 @@ class _ServiceSettings(_SettingsModel):
     debug: bool
     kafka_host: str
     kafka_port: int
+    kafka_topic: str
     photo_directory: str
     db_hostname: str
     db_port: int
@@ -49,6 +50,7 @@ class _ServiceSettings(_SettingsModel):
     db_echo: bool
     tags_metadata: dict[str, str]
 
+    @property
     def kafka_url(self) -> str:
         return f'{self.kafka_host}:{self.kafka_port}'
 
