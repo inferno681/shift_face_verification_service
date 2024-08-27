@@ -21,6 +21,8 @@ spec:
             - name: face-verification-service-config-volume
               mountPath: /app/src/config/config.yaml
               subPath: config.yaml
+            - name: photo-storage
+              mountPath: /app/photos
           env:
             - name: db_password
               valueFrom:
@@ -40,3 +42,6 @@ spec:
         - name: face-verification-service-config-volume
           configMap:
             name: stakrotckii-face-verification-service-configmap
+        - name: photo-storage
+          persistentVolumeClaim:
+            claimName: stakrotckii-photo-pvc
