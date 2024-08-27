@@ -31,18 +31,11 @@ spec:
             - containerPort: 8000
           resources:
             limits:
-              memory: "750Mi"
-              cpu: "200m"
+              memory: "5Gi"
+              cpu: "500m"
             requests:
               memory: "350Mi"
               cpu: "100m"
-          readinessProbe:
-            httpGet:
-              path: /api/healthz/ready
-              port: 8000
-            failureThreshold: 10
-            initialDelaySeconds: 3
-            periodSeconds: 2
       volumes:
         - name: face-verification-service-config-volume
           configMap:
