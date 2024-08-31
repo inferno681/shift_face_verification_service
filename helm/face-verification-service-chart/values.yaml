@@ -42,14 +42,6 @@ resources:
     memory: "350Mi"
     cpu: "100m"
 
-readinessProbe:
-  httpGet:
-    path: /api/healthz/ready
-    port: 8000
-  failureThreshold: 10
-  initialDelaySeconds: 3
-  periodSeconds: 2
-
 ingress:
   enabled: false
   className: ""
