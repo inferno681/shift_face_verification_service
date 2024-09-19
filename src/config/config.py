@@ -38,7 +38,13 @@ class _ServiceSettings(_SettingsModel):
     host: str
     port: int
     debug: bool
+    kafka_host: str
+    kafka_port: int
+    photo_directory: str
     tags_metadata: dict[str, str]
+
+    def kafka_url(self) -> str:
+        return f'{self.kafka_host}:{self.kafka_port}'
 
 
 class Settings(_SettingsModel):
