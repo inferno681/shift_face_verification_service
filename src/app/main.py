@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from deepface import DeepFace
+from deepface.basemodels.Facenet import load_facenet128d_model
 from fastapi import FastAPI, HTTPException, Request, status
 
 from app.api import router
@@ -27,7 +28,7 @@ async def lifespan(app: FastAPI):
     await consumer.start()
     log.info('kafka consumer started')
     DeepFace.build_model(MODEL)  # type: ignore
-    await consumer.consume()
+    load_facenet128d_model()
     yield
     await consumer.stop()
     log.info('kafka consumer stopped')
