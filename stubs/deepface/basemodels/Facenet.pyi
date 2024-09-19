@@ -1,0 +1,3 @@
+from typing import Any
+
+def load_facenet128d_model() -> Any: ...

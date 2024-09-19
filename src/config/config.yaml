@@ -1,0 +1,9 @@
+service:
+  title: "Face verification service"
+  description: "Сервис верификации"
+  host: "localhost"
+  port: 8003
+  debug: True
+  tags_metadata:
+    name: "Embedding"
+    description: "Создание вектора"
