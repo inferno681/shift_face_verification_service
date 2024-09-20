@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 from contextlib import asynccontextmanager
@@ -28,8 +29,10 @@ async def lifespan(app: FastAPI):
     await consumer.start()
     log.info('kafka consumer started')
     DeepFace.build_model(MODEL)  # type: ignore
+    consumer_task = asyncio.create_task(consumer.consume())
     load_facenet128d_model()
     yield
+    consumer_task.cancel()
     await consumer.stop()
     log.info('kafka consumer stopped')
     global model_obj  # noqa: WPS420

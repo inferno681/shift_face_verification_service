@@ -1,13 +1,15 @@
 services:
 
   zookeeper:
-        image: bitnami/zookeeper:latest
-        ports:
-            - 2181:2181
-        environment:
-            - ALLOW_ANONYMOUS_LOGIN=yes
+    container_name: zookeeper
+    image: bitnami/zookeeper:latest
+    ports:
+      - 2181:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
+    container_name: kafka
     image: bitnami/kafka:latest
     ports:
       - 9092:9092
@@ -42,19 +44,11 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=postgres
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=pass
-    ports:
-      - 5050:80
-    depends_on:
-      - db
-
   face_verification_service:
-    build: .
+    container_name: FV_service
+    build:
+      context: .
+      dockerfile: Dockerfile_test
     restart: always
     ports:
       - 8000:8000

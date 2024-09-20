@@ -3,6 +3,7 @@ import logging
 
 from aiokafka import AIOKafkaConsumer  # type: ignore
 
+from app.db import Embedding, get_async_session
 from app.service import FaceVerification
 from config import config
 
@@ -35,11 +36,11 @@ class KafkaConsumer:
         if self.consumer:
             await self.consumer.stop()
 
-    async def consume(self, for_test=True):
+    async def consume(self, for_test: bool = True):
         """Чтение сообщений из кафка."""
         cycle = True
         while cycle:
-            async for msg in self.consumer:
+            async for msg in self.consumer:  # type: ignore
                 user_id = list(msg.value.keys())[0]
                 link = msg.value[user_id]
                 result = FaceVerification(
@@ -47,6 +48,15 @@ class KafkaConsumer:
                     link=link,
                 ).represent()
                 log.info(result['embedding'])
+                async for session in get_async_session():
+                    session.add(
+                        Embedding(
+                            user_id=int(user_id),
+                            link=link,
+                            embedding=result['embedding'],
+                        ),
+                    )
+                    await session.commit()
                 cycle = for_test
 
 
