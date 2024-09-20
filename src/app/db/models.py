@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Annotated
 
-from pgvector.sqlalchemy import Vector  # type: ignore
-from sqlalchemy import ForeignKey, String, text
+from sqlalchemy import Float, ForeignKey, String, text
+from sqlalchemy.dialects.postgresql import ARRAY, TIMESTAMP
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import sync_engine
@@ -33,8 +33,9 @@ class Embedding(Base):
         ForeignKey('user.id', ondelete='CASCADE'),
     )
     link: Mapped[str] = mapped_column(String(150))
-    embedding: Mapped[Vector] = mapped_column(Vector(128))
+    embedding: Mapped[ARRAY] = mapped_column(ARRAY(Float))
     created_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP(timezone=True),
         server_default=text("TIMEZONE('utc', now())"),
     )
     user: Mapped['User'] = relationship('User', back_populates='embedding')

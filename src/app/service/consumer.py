@@ -25,7 +25,7 @@ class KafkaConsumer:
     async def start(self):
         """Метод запуска консьюмера в одном event_loop с приложением."""
         self.consumer = AIOKafkaConsumer(
-            'faces',
+            config.service.kafka_topic,  # type: ignore
             bootstrap_servers=self.bootstrap_servers,
             value_deserializer=self.deserializer,
         )
@@ -61,5 +61,5 @@ class KafkaConsumer:
 
 
 consumer = KafkaConsumer(
-    bootstrap_servers=config.service.kafka_url(),  # type: ignore
+    bootstrap_servers=config.service.kafka_url,  # type: ignore
 )

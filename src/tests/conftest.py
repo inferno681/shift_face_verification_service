@@ -38,7 +38,6 @@ async def crate_and_drop_database():
             """,
             ),
         )
-        await conn.execute(text('CREATE EXTENSION IF NOT EXISTS vector;'))
         await conn.commit()
         from app.db import Base
     async with engine.begin() as conn:
@@ -47,7 +46,6 @@ async def crate_and_drop_database():
     yield
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
-        await conn.execute(text('DROP EXTENSION IF EXISTS vector;'))
         await conn.commit()
     drop_database(config.sync_database_url)
     await engine.dispose()
