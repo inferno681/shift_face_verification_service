@@ -72,7 +72,7 @@ app:
     config.yaml: |
       service:
         title: "Face verification service"
-        description: "Сервис верификации"
+        description: "Face verification service"
         host: "0.0.0.0"
         port: 8000
         debug: True
@@ -85,9 +85,6 @@ app:
         db_name: vstakrotskij
         db_username: username
         db_echo: False
-        tags_metadata:
-          name: "Embedding"
-          description: "Создание вектора"
   secret_data:
     db_password: cGFzc3dvcmQ=
   pvc_name: stakrotckii-image-pvc

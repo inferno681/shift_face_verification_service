@@ -6,7 +6,7 @@ import pytest
 
 @pytest.mark.anyio
 async def test_consumer(consumer_test_data, caplog):
-    """Тест консьюмера."""
+    """Kafka consumer test."""
     from app.service import consumer
 
     caplog.set_level(logging.INFO)

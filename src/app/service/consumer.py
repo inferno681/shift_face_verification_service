@@ -11,19 +11,19 @@ log = logging.getLogger('uvicorn')
 
 
 class KafkaConsumer:
-    """Класс консьюмера кафка для удобства инициализации."""
+    """Kafka consumer."""
 
     def __init__(self, bootstrap_servers: str):
-        """Конструктор класса."""
+        """Kafka consumer initialization."""
         self.bootstrap_servers = bootstrap_servers
         self.consumer = None
 
     def deserializer(self, value):
-        """Метод десериализации сообщений."""
+        """Message deserializer."""
         return json.loads(value)
 
     async def start(self):
-        """Метод запуска консьюмера в одном event_loop с приложением."""
+        """Kafka producer start method."""
         self.consumer = AIOKafkaConsumer(
             config.service.kafka_topic,  # type: ignore
             bootstrap_servers=self.bootstrap_servers,
@@ -32,12 +32,12 @@ class KafkaConsumer:
         await self.consumer.start()
 
     async def stop(self):
-        """Метод остановки консьюмера."""
+        """Kafka producer stop method."""
         if self.consumer:
             await self.consumer.stop()
 
     async def consume(self, for_test: bool = True):
-        """Чтение сообщений из кафка."""
+        """Message reading."""
         cycle = True
         while cycle:
             async for msg in self.consumer:  # type: ignore

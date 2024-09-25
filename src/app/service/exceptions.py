@@ -1,2 +1,2 @@
 class ManyFacesError(Exception):
-    """Более одного лица на изображении."""
+    """More than one face on image."""

@@ -17,12 +17,7 @@ log = logging.getLogger('uvicorn')
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Действия перед запуском API.
-
-    Загрузка модели, запуск и остановка консьюмера,
-    создание директории перед запуском API.
-    """
+    """Photo directory creation, model downloading, kafka consumer start and stop."""  # noqa: E501
     if not os.path.exists(config.service.photo_directory):  # type: ignore
         os.makedirs(config.service.photo_directory)  # type: ignore
     await consumer.start()
@@ -51,7 +46,7 @@ async def many_faces_error_handler(
     request: Request,
     exc: ManyFacesError,
 ):
-    """Глобальный обработчик исключений для ManyFacesError."""
+    """Exception handler (ManyFacesError)."""
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail=str(exc),

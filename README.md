@@ -1,9 +1,9 @@
-# Face verification service
+# Face Verification Service
 
-Сервис преобразования лица на фото в вектор.
+A service for transforming a face in a photo into a vector.
 
-## Реализованы следующие возможности
+## The following features are implemented:
 
-### Генерация вектора
+### Vector Generation
 
-Генерация вектора на основе фотографии (путь до файла).
+Vector generation based on a photo (file path).

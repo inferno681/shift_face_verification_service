@@ -7,15 +7,15 @@ from app.service import ManyFacesError
 
 
 class FaceVerification:
-    """Сервис верификации."""
+    """Face verification service."""
 
     def __init__(self, link: str, user_id: int) -> None:
-        """Конструктор класса."""
+        """Class constructor."""
         self.link = link
         self.user_id = user_id
 
     def represent(self) -> dict[str, Any]:
-        """Функция получения эмбеддинга лица."""
+        """Face embedding from image."""
         result = represent(img_path=self.link, model_name=MODEL)
         if len(result) > 1:
             raise ManyFacesError(MANY_FACES_MESSAGE)
