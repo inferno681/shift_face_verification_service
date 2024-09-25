@@ -48,7 +48,6 @@ class _ServiceSettings(_SettingsModel):
     db_name: str
     db_username: str
     db_echo: bool
-    tags_metadata: dict[str, str]
 
     @property
     def kafka_url(self) -> str:

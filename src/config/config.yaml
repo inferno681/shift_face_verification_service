@@ -13,6 +13,3 @@ service:
     db_name: postgres
     db_username: postgres
     db_echo: False
-    tags_metadata:
-        name: "Embedding"
-        description: "Создание вектора"

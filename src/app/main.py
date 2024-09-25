@@ -8,7 +8,6 @@ from deepface import DeepFace
 from deepface.basemodels.Facenet import load_facenet128d_model
 from fastapi import FastAPI, HTTPException, Request, status
 
-from app.api import router
 from app.constants import MODEL
 from app.service import ManyFacesError, consumer
 from config import config
@@ -27,32 +26,23 @@ async def lifespan(app: FastAPI):
     if not os.path.exists(config.service.photo_directory):  # type: ignore
         os.makedirs(config.service.photo_directory)  # type: ignore
     await consumer.start()
-    log.info('kafka consumer started')
+    log.info('Kafka consumer started')
     DeepFace.build_model(MODEL)  # type: ignore
     consumer_task = asyncio.create_task(consumer.consume())
     load_facenet128d_model()
     yield
     consumer_task.cancel()
     await consumer.stop()
-    log.info('kafka consumer stopped')
+    log.info('Kafka consumer stopped')
     global model_obj  # noqa: WPS420
     model_obj = {}  # type: ignore
 
 
-tags_metadata = [config.service.tags_metadata]  # type: ignore
-
 app = FastAPI(
     title=config.service.title,  # type: ignore
     description=config.service.description,  # type: ignore
-    tags_metadata=tags_metadata,
     debug=config.service.debug,  # type: ignore
     lifespan=lifespan,
-)
-
-app.include_router(
-    router,
-    prefix='/api',
-    tags=[config.service.tags_metadata['name']],  # type: ignore
 )
 
 
