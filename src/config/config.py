@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class _SettingsModel(BaseSettings):
-    """Базовые настройки."""
+    """Base settings."""
 
     @classmethod
     def from_yaml(cls, config_path: str) -> '_SettingsModel':
@@ -27,12 +27,12 @@ class _SettingsModel(BaseSettings):
         env_settings,
         file_secret_settings,
     ):
-        """Определяем приоритет использования переменных."""
+        """Variables priority."""
         return init_settings, env_settings, file_secret_settings
 
 
 class _ServiceSettings(_SettingsModel):
-    """Валидация настроек из файла YAML."""
+    """Service settings validation."""
 
     title: str
     description: str
@@ -55,7 +55,7 @@ class _ServiceSettings(_SettingsModel):
 
 
 class _SettingsSecret(BaseSettings):
-    """Базовый класс настроек."""
+    """Secret settings validation."""
 
     db_password: SecretStr = SecretStr('password')
 
@@ -66,13 +66,13 @@ class _SettingsSecret(BaseSettings):
 
 
 class Settings(_SettingsModel, _SettingsSecret):
-    """Настройки сервиса."""
+    """Service settings."""
 
     service: _ServiceSettings
 
     @property
     def database_url(self):
-        """Ссылка для подключения к базе данных."""
+        """Database async link."""
         return (
             f'postgresql+asyncpg://{self.service.db_username}:'
             f'{self.db_password.get_secret_value()}@'
@@ -82,7 +82,7 @@ class Settings(_SettingsModel, _SettingsSecret):
 
     @property
     def sync_database_url(self):
-        """Ссылка для подключения к базе данных."""
+        """Database sync link."""
         return (
             f'postgresql://{self.service.db_username}:'
             f'{self.db_password.get_secret_value()}@'

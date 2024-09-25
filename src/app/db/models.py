@@ -19,14 +19,14 @@ Base.metadata.reflect(sync_engine, only=['user'])
 
 
 class User(Base):
-    """Модель пользователя."""
+    """User model."""
 
     __table__ = Base.metadata.tables['user']
     embedding: Mapped['Embedding'] = relationship(back_populates='user')
 
 
 class Embedding(Base):
-    """Модель Транзакции."""
+    """Embedding model."""
 
     id: Mapped[intpk]
     user_id: Mapped[int] = mapped_column(

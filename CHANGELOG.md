@@ -1,37 +1,37 @@
-# История версий
+# Version History
 
 ## 0.1.0
-### Добавлено
-- Добавлен метод генерации вектора на основе фотографии пользователя
+### Added
+- Added method for generating a vector based on the user's photo
 
 ## 0.1.1
-### Добавлено
-- Добалена базовая документация к проекту
-### Изменено
-- Изменена структура. Структура тэстов соответствует структуре приложения. Файл main.py переименован в service.py
+### Added
+- Added basic project documentation
+### Changed
+- Changed structure. The test structure now matches the application's structure. `main.py` was renamed to `service.py`
 
 ## 0.2.0
-### Добавлено
-- Добавлен метод проверкт токена
-- Добавлен API
-- Добавлены интеграционные тесты
-### Изменено
-- Изменена структура. Структура тэстов соответствует структуре приложения. Точка входа - main.py. Вся бизнес-логика перенесена в папку service.
+### Added
+- Added token verification method
+- Added API
+- Added integration tests
+### Changed
+- Changed structure. The test structure now matches the application's structure. The entry point is `main.py`. All business logic moved to the `service` folder.
 
 ## 0.2.1
-### Добавлено
-- Добавлен Dockerfile
-- В CI добавлен шаг со сборкой контейнера и загрузкой на dockerhub
+### Added
+- Added Dockerfile
+- Added CI step for building the container and pushing it to DockerHub
 
 ## 0.3.0
-### Добавлено
-- Добавлена интеграция с кафка
+### Added
+- Added Kafka integration
 
 ## 0.4.0
-### Добавлено
-- Добавлена база данных
+### Added
+- Added database
 
 ## 0.5.0
-### Добавлено
-- Добавлены манифесты для запуска в кубернетис
-- Добавлены чарты для Helm
+### Added
+- Added manifests for running in Kubernetes
+- Added Helm charts

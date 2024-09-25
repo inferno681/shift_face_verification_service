@@ -1,5 +1,6 @@
-"""Основные настройки."""
+"""Base settings."""
+
 MODEL = 'Facenet'
 
-"""Сообщения об ошибках."""
-MANY_FACES_MESSAGE = 'Более одного лица на изображении'
+"""Error messages."""
+MANY_FACES_MESSAGE = 'More than one face in the image'

@@ -5,7 +5,7 @@ from app.constants import MANY_FACES_MESSAGE, MODEL
 
 
 def test_vector_generation(one_face_data):
-    """Тест генерации вектора."""
+    """Service test."""
     from app.service import FaceVerification
 
     result = FaceVerification(**one_face_data).represent()
@@ -18,7 +18,7 @@ def test_vector_generation(one_face_data):
 
 
 def test_many_faces_error(many_faces_data):
-    """Тест исключения (несколько лиц на изображении)."""
+    """Exception test."""
     from app.service import FaceVerification, ManyFacesError
 
     with pytest.raises((ManyFacesError)) as excinfo:
